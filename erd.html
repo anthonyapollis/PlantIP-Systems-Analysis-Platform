@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Model / ERD — Plant Variety IP Management Platform</title>
+<meta name="description" content="Entity-relationship diagram for the Plant Variety IP and Royalty Licensing Management Platform PostgreSQL migration.">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+  body { background:#f4f6f2; color:#1c2a1e; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; margin:0; padding:32px 20px; }
+  .wrap { max-width:1100px; margin:0 auto; }
+  h1 { color:#1f3d24; font-size:1.5rem; margin-bottom:6px; }
+  p.sub { color:#4a5a4a; margin-bottom:24px; }
+  a.back { display:inline-block; margin-bottom:20px; color:#2c5230; text-decoration:none; font-size:14px; }
+  .diagram { background:#fff; border:1px solid #dde3d7; border-radius:10px; padding:24px; overflow-x:auto; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">&larr; Back to case study</a>
+  <h1>Entity-relationship diagram</h1>
+  <p class="sub">Target PostgreSQL schema — 10 tables across 8 subject areas. Synthetic schema for portfolio purposes.</p>
+  <div class="diagram">
+    <pre class="mermaid">
+erDiagram
+    CULTIVARS ||--o{ LICENCES : "licensed under"
+    CULTIVARS ||--o{ BLOCKS : "planted as"
+    CULTIVARS ||--o{ NURSERY_ORDERS : "ordered as"
+    CULTIVARS ||--o{ IMPORT_EXPORT_PERMITS : "moved under"
+    STAKEHOLDERS ||--o{ LICENCES : "holds"
+    STAKEHOLDERS ||--o{ BLOCKS : "manages"
+    STAKEHOLDERS ||--o{ NURSERY_ORDERS : "places"
+    LICENCES ||--o{ ROYALTY_CONTRACTS : "governs"
+    ROYALTY_CONTRACTS ||--o{ ROYALTY_TRANSACTIONS : "settles"
+    BLOCKS ||--o{ PATHOLOGY_TESTS : "tested via"
+    BLOCKS ||--o{ QUARANTINE_RECORDS : "quarantined via"
+    IMPORT_EXPORT_PERMITS ||--o{ QUARANTINE_RECORDS : "requires"
+
+    CULTIVARS {
+        int cultivar_id PK
+        string cultivar_name
+        string species
+        string plant_type
+        string release_status
+    }
+    STAKEHOLDERS {
+        int stakeholder_id PK
+        string stakeholder_name
+        string stakeholder_type
+        string region
+    }
+    LICENCES {
+        int licence_id PK
+        int cultivar_id FK
+        int stakeholder_id FK
+        string licence_type
+        string status
+    }
+    BLOCKS {
+        int block_id PK
+        int cultivar_id FK
+        int stakeholder_id FK
+        string block_type
+        string block_status
+    }
+    PATHOLOGY_TESTS {
+        int test_id PK
+        int block_id FK
+        string test_type
+        string result
+    }
+    ROYALTY_CONTRACTS {
+        int contract_id PK
+        int licence_id FK
+        numeric royalty_rate
+        string calculation_basis
+    }
+    ROYALTY_TRANSACTIONS {
+        int transaction_id PK
+        int contract_id FK
+        numeric amount_due
+        string payment_status
+    }
+    NURSERY_ORDERS {
+        int order_id PK
+        int cultivar_id FK
+        int stakeholder_id FK
+        string order_status
+    }
+    IMPORT_EXPORT_PERMITS {
+        int permit_id PK
+        int cultivar_id FK
+        string direction
+        string permit_status
+    }
+    QUARANTINE_RECORDS {
+        int quarantine_id PK
+        int permit_id FK
+        int block_id FK
+        string clearance_status
+    }
+    </pre>
+  </div>
+</div>
+<script>mermaid.initialize({ startOnLoad: true, theme: 'neutral' });</script>
+</body>
+</html>

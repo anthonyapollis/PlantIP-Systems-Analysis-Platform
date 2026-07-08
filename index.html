@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plant Variety IP & Royalty Licensing Management Platform | Anthony Apollis</title>
+<meta name="description" content="Business and systems analysis case study: legacy MS Access database audit, business process review, and PostgreSQL migration design for a plant variety IP licensing and royalty management system.">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background:#f4f6f2; color:#1c2a1e; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; line-height:1.6; }
+  header.hero { background:#1f3d24; color:#f4f6f2; padding:64px 24px; }
+  .wrap { max-width:980px; margin:0 auto; }
+  .badge { display:inline-block; background:#3b6d3f; color:#eaf3de; font-size:12px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:4px 12px; border-radius:20px; margin-bottom:16px; }
+  header.hero h1 { font-size:2.1rem; margin-bottom:8px; }
+  header.hero p.tag { font-size:1.15rem; color:#c9dbc0; max-width:700px; }
+  .tags { margin-top:20px; display:flex; flex-wrap:wrap; gap:8px; }
+  .tags span { background:#2c5230; color:#dcecd4; font-size:12.5px; padding:5px 12px; border-radius:6px; }
+  section { padding:44px 24px; border-bottom:1px solid #dde3d7; }
+  section h2 { font-size:1.4rem; color:#1f3d24; margin-bottom:14px; }
+  section p { max-width:760px; margin-bottom:12px; color:#2c3a2e; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:980px; }
+  @media (max-width:700px){ .grid2{ grid-template-columns:1fr; } }
+  .card { background:#fff; border:1px solid #dde3d7; border-radius:10px; padding:20px; }
+  .card h3 { font-size:1rem; color:#1f3d24; margin-bottom:8px; }
+  .card ul { margin-left:18px; color:#2c3a2e; font-size:14.5px; }
+  .card li { margin-bottom:5px; }
+  .subject-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; margin-top:16px; }
+  .subject { background:#fff; border-left:4px solid #3b6d3f; border-radius:6px; padding:14px 16px; font-size:14px; }
+  .subject b { display:block; color:#1f3d24; margin-bottom:4px; }
+  .disclaimer { background:#fff8e6; border:1px solid #eddca0; border-radius:8px; padding:16px 20px; font-size:13.5px; color:#6b5410; max-width:760px; }
+  footer { text-align:center; padding:36px 24px; color:#6b7a6a; font-size:13.5px; }
+  a { color:#2c5230; }
+  code { background:#eef2ea; padding:2px 6px; border-radius:4px; font-size:13px; }
+  .phase { display:flex; gap:14px; align-items:flex-start; margin-bottom:18px; }
+  .phase .num { background:#1f3d24; color:#fff; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; flex-shrink:0; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">Portfolio Project — Business &amp; Systems Analysis</span>
+    <h1>Plant Variety IP &amp; Royalty Licensing Management Platform</h1>
+    <p class="tag">Business process review, legacy systems audit, and PostgreSQL migration design for an organisation managing plant breeders' rights, licensing, and royalty collection.</p>
+    <div class="tags">
+      <span>Business Process Analysis</span>
+      <span>Systems Audit</span>
+      <span>Requirements Elicitation</span>
+      <span>Data Modelling / ERD</span>
+      <span>MS Access → PostgreSQL Migration</span>
+      <span>PostgreSQL DDL</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Business context</h2>
+    <p>Organisations that manage plant variety intellectual property — registering breeders' rights, licensing cultivars to growers, and collecting royalties — depend on accurate, well-governed data across the full IP lifecycle: from importation and quarantine, through propagation and block management, to licensing, sales, and royalty reconciliation.</p>
+    <p>This case study models a common real-world scenario: a growing IP-management operation had outgrown its original Microsoft Access database. Management needed an independent review of whether the existing system could keep supplying reliable information for IP-management decisions, and a plan for what should replace it.</p>
+    <div class="disclaimer">This is a synthetic, independently-built recreation for portfolio purposes. All organisation names, growers, cultivars, and figures shown are fictional. It is <strong>not</strong> derived from, and does not reproduce, any real employer's or client's data or systems.</div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Systems &amp; business analysis approach</h2>
+    <div class="phase"><div class="num">1</div><div><strong>Business process mapping.</strong> Walked the end-to-end IP lifecycle — importation &amp; quarantine, registration, propagation planning, virus testing, licensing, nursery orders, and royalty collection — to identify where the current system created risk or manual rework.</div></div>
+    <div class="phase"><div class="num">2</div><div><strong>Current-state systems audit.</strong> Assessed the existing Microsoft Access database against the business processes it was meant to support: data integrity controls, concurrent-access limits, reporting capability, and audit trail gaps.</div></div>
+    <div class="phase"><div class="num">3</div><div><strong>Requirements elicitation.</strong> Consolidated functional requirements per subject area (licensing, royalties, quarantine, nursery orders) into a target data model, validated against the mapped business processes.</div></div>
+    <div class="phase"><div class="num">4</div><div><strong>Target architecture &amp; migration design.</strong> Designed a normalised PostgreSQL schema with referential integrity, indexing for the identified reporting workloads, and a phased Access-to-PostgreSQL migration approach.</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Key findings &amp; recommendations</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>Findings</h3>
+        <ul>
+          <li>Business-critical relationships (licence ↔ royalty ↔ block) were maintained manually across linked tables, with no enforced referential integrity.</li>
+          <li>Royalty reconciliation relied on ad-hoc queries rerun each cycle, with no single source of truth for payment status.</li>
+          <li>Quarantine and pathology test results were not consistently linked back to the blocks and permits they governed.</li>
+          <li>Single-file Access architecture limited concurrent multi-user access and complicated backup/version control.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Recommendations</h3>
+        <ul>
+          <li>Migrate to a normalised relational schema (PostgreSQL) with enforced foreign keys across the licensing, royalty, and block-management subject areas.</li>
+          <li>Introduce a royalty_transactions ledger with explicit payment-status tracking to replace recalculated reports.</li>
+          <li>Link quarantine and pathology records directly to blocks and permits to close the audit-trail gap.</li>
+          <li>Phase the migration by subject area, starting with licensing and royalty (highest business risk).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Target data model — 8 subject areas</h2>
+    <p>The requirements were consolidated into a normalised schema spanning:</p>
+    <div class="subject-grid">
+      <div class="subject"><b>Cultivars</b>Plant/variety master data, IP ownership, release status</div>
+      <div class="subject"><b>Stakeholders</b>Growers, licensors, nurseries, customers</div>
+      <div class="subject"><b>Licences</b>IP licensing agreements per cultivar/stakeholder</div>
+      <div class="subject"><b>Blocks</b>Nucleus, foundation, mother &amp; production block tracking</div>
+      <div class="subject"><b>Pathology tests</b>Virus indexing &amp; testing results per block</div>
+      <div class="subject"><b>Royalty contracts &amp; transactions</b>Rates, calculation basis, payment ledger</div>
+      <div class="subject"><b>Nursery orders</b>Propagation &amp; order fulfilment</div>
+      <div class="subject"><b>Import/export permits &amp; quarantine</b>Cross-border movement &amp; clearance tracking</div>
+    </div>
+    <p style="margin-top:18px;">Full DDL: <a href="schema.sql">schema.sql</a> &nbsp;|&nbsp; Sample data: <a href="sample_data.sql">sample_data.sql</a> &nbsp;|&nbsp; <a href="erd.html">Interactive ERD →</a></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Skills demonstrated</h2>
+    <div class="tags">
+      <span>Business process analysis</span>
+      <span>Systems audit &amp; gap analysis</span>
+      <span>Requirements elicitation</span>
+      <span>Entity-relationship modelling</span>
+      <span>Data governance design</span>
+      <span>PostgreSQL / SQL DDL</span>
+      <span>Legacy system migration planning</span>
+      <span>Stakeholder-facing documentation</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Anthony Apollis — Senior BI, Data Analytics, Business &amp; Systems Analysis Professional<br>
+  <a href="https://anthonyapollis.github.io">Full portfolio</a> &nbsp;|&nbsp; <a href="https://github.com/anthonyapollis">GitHub</a>
+</footer>
+
+</body>
+</html>
