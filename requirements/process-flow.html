@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Process Flow (As-Is / To-Be) | Plant Variety IP Management Platform</title>
+<meta name="description" content="Business process mapping: as-is and to-be process flows for royalty licensing and collection.">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body { background:#f4f6f2; color:#1c2a1e; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; line-height:1.6; margin:0; padding:0 20px 60px; }
+  .wrap { max-width:1080px; margin:0 auto; }
+  a.back { display:inline-block; margin:24px 0 8px; color:#2c5230; text-decoration:none; font-size:14px; }
+  h1 { color:#1f3d24; font-size:1.4rem; margin-bottom:4px; }
+  h2 { color:#1f3d24; font-size:1.05rem; margin:30px 0 10px; }
+  p.sub { color:#4a5a4a; margin-bottom:20px; font-size:14px; }
+  .diagram { background:#fff; border:1px solid #dde3d7; border-radius:10px; padding:20px; overflow-x:auto; margin-bottom:10px; }
+  .findings { background:#fff; border-left:4px solid #3b6d3f; border-radius:6px; padding:14px 18px; font-size:13.5px; margin-top:8px; }
+  .disclaimer { background:#fff8e6; border:1px solid #eddca0; border-radius:8px; padding:14px 18px; font-size:13px; color:#6b5410; margin-bottom:22px; }
+  .badge-asis { background:#fbe6e6; color:#a33; font-size:11.5px; padding:2px 10px; border-radius:12px; font-weight:600; }
+  .badge-tobe { background:#e2f0e0; color:#2c5230; font-size:11.5px; padding:2px 10px; border-radius:12px; font-weight:600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; Back to case study</a>
+  <h1>Business Process Flow — Royalty Licensing &amp; Collection</h1>
+  <p class="sub">As-is / to-be process mapping produced during the business process review. Companion to the <a href="brd.html">BRD</a> and <a href="traceability-matrix.html">traceability matrix</a>.</p>
+  <div class="disclaimer">Synthetic portfolio artifact for demonstration purposes.</div>
+
+  <h2><span class="badge-asis">AS-IS</span> Legacy process (Microsoft Access)</h2>
+  <div class="diagram">
+    <pre class="mermaid">
+flowchart TB
+    subgraph Grower["Grower / Licensee"]
+      A1[Submit sales volume<br/>by email/spreadsheet]
+    end
+    subgraph Licensing["Licensing Officer"]
+      B1[Manually enter volume<br/>into Access form]
+      B2[Look up royalty rate<br/>from separate rate sheet]
+    end
+    subgraph Finance["Finance / Royalty Team"]
+      C1[Re-run Access query<br/>to calculate amount due]
+      C2[Manually cross-check<br/>against bank statement]
+      C3{Discrepancy found?}
+      C4[Manual investigation<br/>&mdash; no audit trail]
+      C5[Mark as paid in<br/>separate spreadsheet]
+    end
+    A1 --> B1 --> B2 --> C1 --> C2 --> C3
+    C3 -- yes --> C4 --> C2
+    C3 -- no --> C5
+    </pre>
+  </div>
+  <div class="findings"><strong>Findings:</strong> royalty rate and payment status are held in two disconnected places (Access + spreadsheet); reconciliation is manual and produces no audit trail when a discrepancy is found.</div>
+
+  <h2><span class="badge-tobe">TO-BE</span> Target process (PostgreSQL platform)</h2>
+  <div class="diagram">
+    <pre class="mermaid">
+flowchart TB
+    subgraph Grower2["Grower / Licensee"]
+      D1[Submit sales volume<br/>via portal / API]
+    end
+    subgraph System["Platform (automated)"]
+      E1[Volume recorded against<br/>royalty_contracts]
+      E2[Amount due calculated<br/>automatically from contract rate]
+      E3[royalty_transactions ledger<br/>updated: outstanding]
+    end
+    subgraph Finance2["Finance / Royalty Team"]
+      F1[Review outstanding<br/>transactions dashboard]
+      F2[Confirm payment received]
+      F3[Transaction marked paid<br/>&mdash; full audit trail retained]
+    end
+    D1 --> E1 --> E2 --> E3 --> F1 --> F2 --> F3
+    </pre>
+  </div>
+  <div class="findings"><strong>Improvement:</strong> a single royalty_transactions ledger removes the manual recalculation step and gives Finance a real-time outstanding/paid view with full traceability — directly addressing BR-03 and BR-04.</div>
+
+  <p style="margin-top:28px;"><a href="../erd.html">See the supporting data model &rarr;</a> &nbsp;|&nbsp; <a href="../presentation.html">View stakeholder presentation &rarr;</a></p>
+</div>
+<script>mermaid.initialize({ startOnLoad: true, theme: 'neutral' });</script>
+</body>
+</html>

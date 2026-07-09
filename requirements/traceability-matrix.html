@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Requirements Traceability Matrix | Plant Variety IP Management Platform</title>
+<meta name="description" content="Requirements traceability matrix mapping business requirements to data model entities and test coverage.">
+<style>
+  * { box-sizing: border-box; }
+  body { background:#f4f6f2; color:#1c2a1e; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; line-height:1.6; margin:0; padding:0 20px 60px; }
+  .wrap { max-width:1080px; margin:0 auto; }
+  a.back { display:inline-block; margin:24px 0 8px; color:#2c5230; text-decoration:none; font-size:14px; }
+  h1 { color:#1f3d24; font-size:1.4rem; margin-bottom:4px; }
+  p.sub { color:#4a5a4a; margin-bottom:20px; font-size:14px; }
+  table { width:100%; border-collapse:collapse; font-size:12.5px; background:#fff; }
+  th, td { border:1px solid #dde3d7; padding:7px 9px; text-align:left; vertical-align:top; }
+  th { background:#1f3d24; color:#eaf1e6; font-weight:600; position:sticky; top:0; }
+  tr:nth-child(even) td { background:#fafcf8; }
+  .req-id { font-family:monospace; font-weight:600; color:#1f3d24; white-space:nowrap; }
+  .status-done { color:#3b6d3f; font-weight:600; }
+  .status-progress { color:#a76e0e; font-weight:600; }
+  .disclaimer { background:#fff8e6; border:1px solid #eddca0; border-radius:8px; padding:14px 18px; font-size:13px; color:#6b5410; margin-bottom:22px; }
+  .tablewrap { overflow-x:auto; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; Back to case study</a>
+  <h1>Requirements Traceability Matrix</h1>
+  <p class="sub">Maps each business requirement through to the data model entity, migration phase, and verification approach. Companion to the <a href="brd.html">Business Requirements Document</a>.</p>
+  <div class="disclaimer">Synthetic portfolio artifact for demonstration purposes.</div>
+
+  <div class="tablewrap">
+  <table>
+    <tr>
+      <th>Req ID</th><th>Requirement summary</th><th>Data model entity</th><th>Migration phase</th><th>Verification method</th><th>Status</th>
+    </tr>
+    <tr><td class="req-id">BR-01</td><td>Cultivar master record with IP owner &amp; release status</td><td><code>cultivars</code></td><td>Phase 1 — Licensing &amp; royalty</td><td>Schema review + sample data load</td><td class="status-done">Modelled</td></tr>
+    <tr><td class="req-id">BR-02</td><td>Licence linked to one cultivar and one stakeholder</td><td><code>licences</code> (FK to <code>cultivars</code>, <code>stakeholders</code>)</td><td>Phase 1</td><td>Referential integrity test</td><td class="status-done">Modelled</td></tr>
+    <tr><td class="req-id">BR-03</td><td>Configurable royalty calculation (per-unit / percentage)</td><td><code>royalty_contracts.calculation_basis</code></td><td>Phase 1</td><td>Calculation unit test against sample transactions</td><td class="status-done">Modelled</td></tr>
+    <tr><td class="req-id">BR-04</td><td>Royalty payment status tracking</td><td><code>royalty_transactions.payment_status</code></td><td>Phase 1</td><td>Reconciliation report review</td><td class="status-done">Modelled</td></tr>
+    <tr><td class="req-id">BR-05</td><td>Pathology results linked to specific block</td><td><code>pathology_tests</code> (FK to <code>blocks</code>)</td><td>Phase 2 — Block &amp; quarantine</td><td>Schema review</td><td class="status-done">Modelled</td></tr>
+    <tr><td class="req-id">BR-06</td><td>Import/export permits linked to quarantine records</td><td><code>quarantine_records</code> (FK to <code>import_export_permits</code>, <code>blocks</code>)</td><td>Phase 2</td><td>Referential integrity test</td><td class="status-done">Modelled</td></tr>
+    <tr><td class="req-id">BR-07</td><td>Concurrent multi-user access, no file locking</td><td>Platform-level (PostgreSQL vs. Access)</td><td>Phase 0 — Platform migration</td><td>Concurrent-session load test</td><td class="status-progress">Target architecture defined</td></tr>
+    <tr><td class="req-id">BR-08</td><td>Change history sufficient to reconstruct block status</td><td><code>blocks.block_status</code> + audit strategy (future: history table)</td><td>Phase 2</td><td>Point-in-time reconstruction test</td><td class="status-progress">Recommended for Phase 2 design</td></tr>
+    <tr><td class="req-id">BR-09</td><td>Nursery order tracking from placement to fulfilment</td><td><code>nursery_orders.order_status</code></td><td>Phase 3 — Nursery &amp; orders</td><td>Workflow walkthrough</td><td class="status-done">Modelled</td></tr>
+  </table>
+  </div>
+
+  <p style="margin-top:28px;"><a href="process-flow.html">Next: As-is / to-be process flow &rarr;</a></p>
+</div>
+</body>
+</html>

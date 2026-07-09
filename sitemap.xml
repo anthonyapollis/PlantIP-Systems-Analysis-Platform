@@ -2,4 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://anthonyapollis.github.io/PlantIP-Systems-Analysis-Platform/</loc></url>
   <url><loc>https://anthonyapollis.github.io/PlantIP-Systems-Analysis-Platform/erd.html</loc></url>
+  <url><loc>https://anthonyapollis.github.io/PlantIP-Systems-Analysis-Platform/presentation.html</loc></url>
+  <url><loc>https://anthonyapollis.github.io/PlantIP-Systems-Analysis-Platform/requirements/brd.html</loc></url>
+  <url><loc>https://anthonyapollis.github.io/PlantIP-Systems-Analysis-Platform/requirements/traceability-matrix.html</loc></url>
+  <url><loc>https://anthonyapollis.github.io/PlantIP-Systems-Analysis-Platform/requirements/process-flow.html</loc></url>
 </urlset>

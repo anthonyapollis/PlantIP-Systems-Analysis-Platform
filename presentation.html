@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stakeholder Presentation | Plant Variety IP Management Platform</title>
+<meta name="description" content="Stakeholder steering committee presentation: systems audit findings and PostgreSQL migration recommendation.">
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:#152318; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; overflow:hidden; height:100vh; }
+  .deck { position:relative; width:100vw; height:100vh; }
+  .slide { position:absolute; inset:0; display:none; flex-direction:column; justify-content:center; padding:60px 90px; color:#f4f6f2; }
+  .slide.active { display:flex; }
+  .slide .eyebrow { color:#7fbf87; font-size:13px; letter-spacing:.08em; text-transform:uppercase; font-weight:600; margin-bottom:14px; }
+  .slide h1 { font-size:2.4rem; margin-bottom:18px; color:#fff; }
+  .slide h2 { font-size:1.6rem; margin-bottom:22px; color:#fff; }
+  .slide p.lead { font-size:1.15rem; color:#c9dbc0; max-width:760px; margin-bottom:10px; }
+  .slide ul { margin-top:18px; max-width:760px; }
+  .slide li { font-size:1.05rem; color:#dfeadb; margin-bottom:12px; padding-left:26px; position:relative; }
+  .slide li::before { content:'\2022'; color:#7fbf87; position:absolute; left:6px; font-size:1.3rem; }
+  .cards { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:20px; max-width:820px; }
+  .card { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:18px 20px; }
+  .card b { display:block; color:#7fbf87; font-size:.85rem; text-transform:uppercase; letter-spacing:.04em; margin-bottom:6px; }
+  .card span { color:#dfeadb; font-size:.95rem; }
+  .metric-row { display:flex; gap:36px; margin-top:24px; }
+  .metric-row div { text-align:left; }
+  .metric-row .mv { font-size:2.1rem; font-weight:700; color:#fff; }
+  .metric-row .ml { color:#a8c2a3; font-size:.85rem; margin-top:2px; }
+  .nav { position:fixed; bottom:22px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:16px; z-index:10; }
+  .nav button { background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); color:#fff; width:38px; height:38px; border-radius:50%; cursor:pointer; font-size:16px; }
+  .nav button:hover { background:rgba(255,255,255,.2); }
+  .nav .count { color:#a8c2a3; font-size:13px; min-width:50px; text-align:center; }
+  .backlink { position:fixed; top:20px; left:24px; color:#a8c2a3; text-decoration:none; font-size:13px; z-index:10; }
+  .disclaimer-slide p { color:#c9dbc0; }
+</style>
+</head>
+<body>
+<a class="backlink" href="index.html">&larr; Case study</a>
+<div class="deck" id="deck">
+
+  <section class="slide active">
+    <div class="eyebrow">Steering committee presentation</div>
+    <h1>Plant Variety IP &amp; Royalty<br>Licensing Management Platform</h1>
+    <p class="lead">Systems audit findings and recommended PostgreSQL migration.</p>
+    <p class="lead" style="margin-top:30px;color:#8aa886;font-size:.9rem;">Prepared by Anthony Apollis, Business &amp; Systems Analyst</p>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">1 &middot; The problem</div>
+    <h2>The current system can't keep up</h2>
+    <ul>
+      <li>Royalty rates and payment status live in disconnected Access tables and spreadsheets.</li>
+      <li>Reconciliation is manual, re-run every cycle, with no audit trail when discrepancies occur.</li>
+      <li>Single-file Access architecture blocks concurrent multi-user access.</li>
+      <li>Quarantine and pathology results are not consistently linked back to the blocks they govern.</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">2 &middot; Our approach</div>
+    <h2>A structured systems &amp; business analysis</h2>
+    <div class="cards">
+      <div class="card"><b>01 &middot; Process mapping</b><span>Walked the full IP lifecycle end to end, lane by lane.</span></div>
+      <div class="card"><b>02 &middot; Systems audit</b><span>Assessed Access against what the business actually needs.</span></div>
+      <div class="card"><b>03 &middot; Requirements</b><span>9 business requirements, prioritised and traced.</span></div>
+      <div class="card"><b>04 &middot; Target design</b><span>Normalised PostgreSQL schema, phased migration plan.</span></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">3 &middot; What we found</div>
+    <h2>8 subject areas, 10 tables, no enforced integrity</h2>
+    <div class="metric-row">
+      <div><div class="mv">8</div><div class="ml">Subject areas mapped</div></div>
+      <div><div class="mv">9</div><div class="ml">Business requirements</div></div>
+      <div><div class="mv">0</div><div class="ml">Enforced FK constraints today</div></div>
+    </div>
+    <p class="lead" style="margin-top:26px;">The data itself is well understood by the business &mdash; it's the system that can't enforce or scale the rules the business already follows.</p>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">4 &middot; Recommendation</div>
+    <h2>Migrate to PostgreSQL, phased by risk</h2>
+    <ul>
+      <li><strong>Phase 1 &mdash; Licensing &amp; royalty</strong> (highest business risk)</li>
+      <li><strong>Phase 2 &mdash; Block, pathology &amp; quarantine</strong></li>
+      <li><strong>Phase 3 &mdash; Nursery orders</strong></li>
+      <li>Enforced referential integrity across every subject area from day one of each phase.</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <div class="eyebrow">5 &middot; Next steps</div>
+    <h2>Sign-off requested</h2>
+    <ul>
+      <li>Approve the Business Requirements Document (BRD-PIM-001).</li>
+      <li>Confirm Phase 1 scope and target cutover date.</li>
+      <li>Assign a data owner per subject area for UAT.</li>
+    </ul>
+    <p class="lead" style="margin-top:26px;">Full documentation: <a href="index.html" style="color:#7fbf87;">case study</a> &middot; <a href="erd.html" style="color:#7fbf87;">ERD</a> &middot; <a href="requirements/brd.html" style="color:#7fbf87;">BRD</a> &middot; <a href="requirements/traceability-matrix.html" style="color:#7fbf87;">traceability matrix</a> &middot; <a href="requirements/process-flow.html" style="color:#7fbf87;">process flow</a></p>
+  </section>
+
+  <section class="slide disclaimer-slide">
+    <div class="eyebrow">Note</div>
+    <h2>Synthetic portfolio artifact</h2>
+    <p class="lead">This presentation, and every document it links to, uses a fictional organisation and fabricated data, built independently to demonstrate business and systems analysis deliverables. It does not represent or reproduce any real employer's or client's information.</p>
+  </section>
+
+</div>
+
+<div class="nav">
+  <button id="prev" aria-label="Previous slide">&larr;</button>
+  <span class="count" id="count">1 / 7</span>
+  <button id="next" aria-label="Next slide">&rarr;</button>
+</div>
+
+<script>
+(function(){
+  var slides = document.querySelectorAll('.slide');
+  var idx = 0;
+  function show(i){
+    slides[idx].classList.remove('active');
+    idx = (i + slides.length) % slides.length;
+    slides[idx].classList.add('active');
+    document.getElementById('count').textContent = (idx+1) + ' / ' + slides.length;
+  }
+  document.getElementById('next').addEventListener('click', function(){ show(idx+1); });
+  document.getElementById('prev').addEventListener('click', function(){ show(idx-1); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === ' ') show(idx+1);
+    if (e.key === 'ArrowLeft') show(idx-1);
+  });
+})();
+</script>
+</body>
+</html>

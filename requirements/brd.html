@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Requirements Document | Plant Variety IP Management Platform</title>
+<meta name="description" content="Business Requirements Document for the Plant Variety IP & Royalty Licensing Management Platform systems analysis case study.">
+<style>
+  * { box-sizing: border-box; }
+  body { background:#f4f6f2; color:#1c2a1e; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; line-height:1.6; margin:0; padding:0 20px 60px; }
+  .wrap { max-width:900px; margin:0 auto; }
+  a.back { display:inline-block; margin:24px 0 8px; color:#2c5230; text-decoration:none; font-size:14px; }
+  .doc-header { background:#1f3d24; color:#f4f6f2; padding:32px 32px; border-radius:10px; margin-bottom:28px; }
+  .doc-header h1 { font-size:1.5rem; margin:0 0 8px; }
+  .doc-meta { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:18px; font-size:12.5px; }
+  .doc-meta div span { display:block; color:#9dc294; text-transform:uppercase; letter-spacing:.03em; font-size:10.5px; margin-bottom:2px; }
+  h2 { color:#1f3d24; font-size:1.15rem; margin:32px 0 12px; border-bottom:2px solid #dde3d7; padding-bottom:6px; }
+  h3 { color:#2c5230; font-size:1rem; margin:20px 0 8px; }
+  p { margin:0 0 12px; color:#2c3a2e; }
+  table { width:100%; border-collapse:collapse; margin:12px 0 20px; font-size:13.5px; }
+  th, td { border:1px solid #dde3d7; padding:8px 10px; text-align:left; vertical-align:top; }
+  th { background:#eaf1e6; color:#1f3d24; font-weight:600; }
+  tr:nth-child(even) td { background:#fafcf8; }
+  .req-id { font-family:monospace; font-weight:600; color:#1f3d24; white-space:nowrap; }
+  ul { margin:0 0 12px 20px; color:#2c3a2e; }
+  .disclaimer { background:#fff8e6; border:1px solid #eddca0; border-radius:8px; padding:14px 18px; font-size:13px; color:#6b5410; margin-bottom:24px; }
+  .prio-high { color:#a33; font-weight:600; }
+  .prio-med { color:#a76e0e; font-weight:600; }
+  .prio-low { color:#3b6d3f; font-weight:600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; Back to case study</a>
+
+  <div class="doc-header">
+    <h1>Business Requirements Document</h1>
+    <p style="color:#c9dbc0; margin:0;">Plant Variety IP &amp; Royalty Licensing Management Platform — Systems Replacement Project</p>
+    <div class="doc-meta">
+      <div><span>Document ID</span>BRD-PIM-001</div>
+      <div><span>Version</span>1.0</div>
+      <div><span>Status</span>Approved for design</div>
+      <div><span>Author</span>Anthony Apollis, Business &amp; Systems Analyst</div>
+    </div>
+  </div>
+
+  <div class="disclaimer">Synthetic portfolio artifact. Fictional organisation, stakeholders, and figures — written independently to demonstrate BRD authoring, not derived from any real employer or client document.</div>
+
+  <h2>1. Purpose</h2>
+  <p>This document defines the business requirements for replacing the organisation's legacy Microsoft Access database used to manage plant variety intellectual property (IP): cultivar registration, licensing, royalty collection, block management, and cross-border movement of plant material. It forms the basis for the target data architecture and the phased migration plan.</p>
+
+  <h2>2. Business objectives</h2>
+  <ul>
+    <li><strong>BO-1</strong> — Establish a single source of truth for licensing and royalty data to eliminate reconciliation errors.</li>
+    <li><strong>BO-2</strong> — Reduce the time to close a royalty collection cycle from weeks to days.</li>
+    <li><strong>BO-3</strong> — Provide a full audit trail from plant importation through to commercial sale.</li>
+    <li><strong>BO-4</strong> — Support concurrent multi-user access without file-locking conflicts.</li>
+  </ul>
+
+  <h2>3. Stakeholders</h2>
+  <table>
+    <tr><th>Role</th><th>Interest</th><th>Engagement</th></tr>
+    <tr><td>IP Management Lead</td><td>Accurate licensing &amp; royalty reporting to management</td><td>Requirements sign-off, steering committee</td></tr>
+    <tr><td>Licensing Officers</td><td>Day-to-day licence and contract administration</td><td>Process walkthroughs, UAT</td></tr>
+    <tr><td>Finance / Royalty Team</td><td>Reliable royalty reconciliation and payment tracking</td><td>Requirements workshops</td></tr>
+    <tr><td>Nursery &amp; Grower Liaison</td><td>Order fulfilment and block status visibility</td><td>Interviews</td></tr>
+    <tr><td>Quarantine &amp; Pathology Officers</td><td>Compliance tracking for import/export and testing</td><td>Interviews</td></tr>
+    <tr><td>IT / Data Team</td><td>System build, migration, and support</td><td>Design review, delivery</td></tr>
+  </table>
+
+  <h2>4. Business requirements</h2>
+  <table>
+    <tr><th>ID</th><th>Requirement</th><th>Linked objective</th><th>Priority</th></tr>
+    <tr><td class="req-id">BR-01</td><td>The system shall maintain a master record for each cultivar including IP owner and release status.</td><td>BO-1</td><td class="prio-high">High</td></tr>
+    <tr><td class="req-id">BR-02</td><td>The system shall link each licence to exactly one cultivar and one licensed stakeholder, with enforced referential integrity.</td><td>BO-1</td><td class="prio-high">High</td></tr>
+    <tr><td class="req-id">BR-03</td><td>The system shall calculate royalties due per contract based on a configurable rate and calculation basis (per-unit or percentage).</td><td>BO-2</td><td class="prio-high">High</td></tr>
+    <tr><td class="req-id">BR-04</td><td>The system shall track royalty payment status (outstanding, paid, overdue) per transaction period.</td><td>BO-2</td><td class="prio-high">High</td></tr>
+    <tr><td class="req-id">BR-05</td><td>The system shall record pathology test results against the specific block tested, not the cultivar generally.</td><td>BO-3</td><td class="prio-med">Medium</td></tr>
+    <tr><td class="req-id">BR-06</td><td>The system shall link import/export permits to quarantine records to close the compliance audit trail.</td><td>BO-3</td><td class="prio-high">High</td></tr>
+    <tr><td class="req-id">BR-07</td><td>The system shall support concurrent updates from multiple users without record-level file locking.</td><td>BO-4</td><td class="prio-high">High</td></tr>
+    <tr><td class="req-id">BR-08</td><td>The system shall retain a full change history sufficient to reconstruct block status at any prior date.</td><td>BO-3</td><td class="prio-med">Medium</td></tr>
+    <tr><td class="req-id">BR-09</td><td>The system shall support nursery order tracking from placement through fulfilment.</td><td>BO-1</td><td class="prio-low">Low</td></tr>
+  </table>
+
+  <h2>5. Assumptions &amp; constraints</h2>
+  <ul>
+    <li>Migration will be phased by subject area, starting with licensing and royalty (highest business risk per the systems audit).</li>
+    <li>Historical Access data will be cleansed and validated before migration; the legacy system remains the source of truth until cutover.</li>
+    <li>Target platform: PostgreSQL, to support concurrent access and enforced referential integrity (see <a href="../erd.html">data model</a>).</li>
+  </ul>
+
+  <h2>6. Out of scope</h2>
+  <p>Field-level apparatus systems (temperature and irrigation control) are excluded from this phase, consistent with the original systems audit scope.</p>
+
+  <p style="margin-top:32px;"><a href="traceability-matrix.html">Next: Requirements traceability matrix &rarr;</a></p>
+</div>
+</body>
+</html>
